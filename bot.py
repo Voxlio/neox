@@ -14,11 +14,6 @@ from flask import Flask
 # ⚙️ CONFIGURATION
 # ------------------------------
 
-# bot.py:18 (or similar)
-import os
-# ... other code
-bot.run(os.environ['DISCORD_TOKEN']) # Load token from environment
-
 CHANNEL_ID = 1435365215284760680
 WATCH_ADDRESS = "0x9D191C32C3a850a41651998d71117A7F6358B3F4".lower()
 # ADDED: Role ID for tagging alerts
@@ -47,7 +42,7 @@ intents = discord.Intents.default()
 # START FIX: Add the Message Content Intent to allow commands to work
 intents.message_content = True 
 # END FIX
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents) # <-- BOT DEFINITION IS CORRECT HERE
 
 # ------------------------------
 # 🔍 Monitor wallet for txs
@@ -176,7 +171,8 @@ if __name__ == '__main__':
         print("🌐 Flask server started in background thread.")
         
         # 2. Start the Discord Bot in the main thread (blocking call)
-        bot.run(DISCORD_TOKEN)
+        # FIX: Use os.environ to correctly fetch the token
+        bot.run(os.environ['DISCORD_TOKEN']) 
         
     except discord.errors.LoginFailure:
         print("\n\n❌ ERROR: Improper token has been passed. Ensure DISCORD_TOKEN is set correctly in environment variables.\n")
