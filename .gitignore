@@ -1,0 +1,8 @@
+# Ignore files that hold secrets
+.env
+
+# Ignore dependencies (for Node.js)
+node_modules/
+
+# Ignore common OS files
+.DS_Store
