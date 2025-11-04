@@ -15,7 +15,7 @@ from flask import Flask
 # ------------------------------
 
 CHANNEL_ID = 1435365215284760680
-WATCH_ADDRESS = "0x9D191C32C3a850a41651998d71117A7F6358B3F4".lower()
+WATCH_ADDRESS = "0x11c5fE402fd39698d1144AD027A2fF2471d723af".lower()
 # ADDED: Role ID for tagging alerts
 ALERT_ROLE_ID = 1435365297501765642
 # ADD THIS LINE to correctly format the role mention for Discord
