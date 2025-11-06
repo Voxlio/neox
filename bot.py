@@ -15,7 +15,7 @@ from flask import Flask
 # ------------------------------
 
 CHANNEL_ID = 1435788887170486272
-WATCH_ADDRESS = "0x11c5fE402fd39698d1144AD027A2fF2471d723af".lower()
+WATCH_ADDRESS = "0x9d191c32c3a850a41651998d71117a7f6358b3f4".lower()
 # NEW: Use the same CHANNEL_ID for the periodic message
 TARGET_CHANNEL_ID = 1435365215284760680 
 # ADDED: Role ID for tagging alerts
