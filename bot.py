@@ -14,10 +14,10 @@ from flask import Flask
 # ⚙️ CONFIGURATION
 # ------------------------------
 
-CHANNEL_ID = 1435365215284760680
+CHANNEL_ID = 1435788887170486272
 WATCH_ADDRESS = "0x11c5fE402fd39698d1144AD027A2fF2471d723af".lower()
 # NEW: Use the same CHANNEL_ID for the periodic message
-TARGET_CHANNEL_ID = CHANNEL_ID 
+TARGET_CHANNEL_ID = 1435365215284760680 
 # ADDED: Role ID for tagging alerts
 ALERT_ROLE_ID = 1435365297501765642
 # ADD THIS LINE to correctly format the role mention for Discord
@@ -129,7 +129,7 @@ async def send_periodic_message():
     
     # Check if the channel was found and send the message
     if channel:
-        await channel.send("🤖 **Status Update:** I am currently running and monitoring transactions! (Sent every 8 seconds)")
+        await channel.send("🤖 **Status Update:** I am currently running and monitoring transactions!")
     else:
         print(f"⚠️ Could not find channel with ID: {TARGET_CHANNEL_ID} for periodic message.")
 
