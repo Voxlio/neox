@@ -1,7 +1,7 @@
 import os
 import asyncio
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands, tasks # Tasks imported here
 from web3 import Web3
 # NEW IMPORTS FOR FIXES
 from web3.middleware import ExtraDataToPOAMiddleware
@@ -16,10 +16,12 @@ from flask import Flask
 
 CHANNEL_ID = 1435365215284760680
 WATCH_ADDRESS = "0x11c5fE402fd39698d1144AD027A2fF2471d723af".lower()
+# NEW: Use the same CHANNEL_ID for the periodic message
+TARGET_CHANNEL_ID = CHANNEL_ID 
 # ADDED: Role ID for tagging alerts
 ALERT_ROLE_ID = 1435365297501765642
 # ADD THIS LINE to correctly format the role mention for Discord
-role_mention = f"<@&{ALERT_ROLE_ID}>" # This is defined here but re-defined later, so let's simplify and use the one inside the async function. 
+role_mention = f"<@&{ALERT_ROLE_ID}>" 
 
 # ✅ Neo X RPC endpoint
 RPC_URL = "https://mainnet-2.rpc.banelabs.org" 
@@ -57,7 +59,7 @@ print(f"📦 Starting from block: {last_block}")
 
 async def check_wallet():
     global last_block
-    
+    # ... (Wallet check logic remains the same)
     if not web3.is_connected():
         print("⚠️ RPC disconnected. Skipping check.")
         return
@@ -114,11 +116,31 @@ async def check_wallet():
 async def wallet_watcher():
     await check_wallet()
 
+# ------------------------------
+# 📢 8-SECOND MESSAGE LOOP ADDED HERE
+# ------------------------------
+@tasks.loop(seconds=8.0) # The loop runs every 8.0 seconds
+async def send_periodic_message():
+    # Wait until the bot is ready to ensure get_channel works
+    await bot.wait_until_ready() 
+    
+    # Get the channel object
+    channel = bot.get_channel(TARGET_CHANNEL_ID)
+    
+    # Check if the channel was found and send the message
+    if channel:
+        await channel.send("🤖 **Status Update:** I am currently running and monitoring transactions! (Sent every 8 seconds)")
+    else:
+        print(f"⚠️ Could not find channel with ID: {TARGET_CHANNEL_ID} for periodic message.")
+
 @bot.event
 async def on_ready():
     print(f"🤖 Logged in as {bot.user} (ID: {bot.user.id})")
     await bot.wait_until_ready() 
+    
+    # Start all background tasks when the bot connects
     wallet_watcher.start()
+    send_periodic_message.start() # <-- Starting the new 8-second loop
 
 # ADDED: !hello command for status check
 @bot.command(name='hello')
