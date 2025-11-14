@@ -121,7 +121,7 @@ async def wallet_watcher():
 # ------------------------------
 # 📢10-MINUTE MESSAGE LOOP
 # ------------------------------
-@tasks.loop((minutes=10.0) 
+@tasks.loop(minutes=10.0) 
 async def send_periodic_message():
     await bot.wait_until_ready() 
     
