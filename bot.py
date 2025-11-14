@@ -119,16 +119,16 @@ async def wallet_watcher():
     await check_wallet()
 
 # ------------------------------
-# 📢 8-SECOND MESSAGE LOOP
+# 📢10-MINUTE MESSAGE LOOP
 # ------------------------------
-@tasks.loop(seconds=8.0) 
+@tasks.loop((minutes=10.0) 
 async def send_periodic_message():
     await bot.wait_until_ready() 
     
     channel = bot.get_channel(TARGET_CHANNEL_ID)
     
     if channel:
-        await channel.send("🤖 **Status Update:** I am currently running and monitoring transactions!")
+        await channel.send("🤖 **Status Update:** ✨ **Neo X bot** is active and watching the network!")
     else:
         print(f"⚠️ Could not find channel with ID: {TARGET_CHANNEL_ID} for periodic message.")
 
@@ -191,7 +191,7 @@ async def hello_check(ctx):
     current_block_message = f"Last block checked: `{last_block}`"
 
     response = (
-        f"👋 **Hello! I'm NeoxBot.** I'm currently running and ready to monitor transactions.\n\n"
+        f"👋 **Hello! I'm NeoxBot.** I'm currently running and monitoring transactions.\n\n"
         f"📡 **RPC Status:** {rpc_status}\n"
         f"📦 **Monitoring Status:** I haven't detected any relevant transactions for address "
         f"`{WATCH_ADDRESS}` yet, but I am actively watching from block {current_block_message}.\n\n"
